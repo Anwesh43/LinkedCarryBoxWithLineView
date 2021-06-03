@@ -1,0 +1,4 @@
+include ':carryboxlwithlineview'
+include ':mylibrary'
+include ':app'
+rootProject.name = "LinkedCarryBoxWithLineView"
