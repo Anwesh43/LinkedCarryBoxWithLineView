@@ -212,4 +212,13 @@ class CarryBoxWithLineView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : CarryBoxWithLineView {
+            val view : CarryBoxWithLineView = CarryBoxWithLineView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
