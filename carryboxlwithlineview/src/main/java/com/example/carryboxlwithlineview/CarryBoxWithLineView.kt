@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Color
 import android.graphics.Canvas
 import android.graphics.RectF
+import android.content.Context
 
 val colors : Array<Int> = arrayOf(
     "#f44336",
@@ -58,4 +59,20 @@ fun Canvas.drawCBWLNode(i : Int, scale : Float, paint : Paint) {
     paint.strokeCap = Paint.Cap.ROUND
     paint.strokeWidth = Math.min(w, h) / strokeFactor
     drawCarryBoxWithLine(scale, w, h, paint)
+}
+
+class CarryBoxWithLineView(ctx : Context) : View(ctx) {
+
+    override fun onDraw(canvas : Canvas) {
+
+    }
+
+    override fun onTouchEvent(event : MotionEvent) : Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+
+            }
+        }
+        return true
+    }
 }
