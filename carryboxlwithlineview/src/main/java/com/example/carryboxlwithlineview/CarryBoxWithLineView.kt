@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Canvas
 import android.graphics.RectF
 import android.content.Context
+import android.util.Log
 
 val colors : Array<Int> = arrayOf(
     "#f44336",
@@ -19,10 +20,10 @@ val colors : Array<Int> = arrayOf(
     Color.parseColor(it)
 }.toTypedArray()
 val strokeFactor : Float = 90f
-val sizeFactor : Float = 8.9f
+val sizeFactor : Float = 4.9f
 val delay : Long = 20
 val backColor : Int = Color.parseColor("#BDBDBD")
-val parts : Int = 3
+val parts : Int = 6
 val scGap : Float = 0.02f / parts
 
 fun Int.inverse() : Float = 1f / this
@@ -37,18 +38,25 @@ fun Canvas.drawCarryBoxWithLine(scale : Float, w : Float, h : Float, paint : Pai
     val sf2 : Float = sf.divideScale(1, parts)
     val sf3 : Float = sf.divideScale(2, parts)
     val sf4 : Float = sf.divideScale(3, parts)
+    val sf5 : Float = sf.divideScale(4, parts)
+    Log.d("scale", "$sf1, $sf2, $sf3, $sf4")
+    save()
+    drawCircle(size / 2, size / 8 + (h - size / 3 - size / 4) * sf5, (size  / 8) * sf1, paint)
     save()
     translate(0f, (h - size / 3) * sf2)
     save()
     translate((w - size) * (1 - sf4), 0f)
-    drawRect(RectF(size - size * sf1, 0f, size / 3, size), paint)
+    drawRect(RectF(size - size * sf1, 0f, size, size / 3), paint)
     restore()
     for (j in 0..1) {
         save()
-        translate(0f, size / 10 + (h - size / 5) * j)
-        drawLine(0f, 0f, (w - size) * (sf3 - sf4), 0f, paint)
+        translate(0f, size / 10 + (size / 3 - size / 5) * j)
+        if (sf3 > 0) {
+            drawLine(0f, 0f, (w - size) * (sf3 - sf4), 0f, paint)
+        }
         restore()
     }
+    restore()
     restore()
 }
 
@@ -81,7 +89,7 @@ class CarryBoxWithLineView(ctx : Context) : View(ctx) {
     data class State(var scale : Float = 0f, var dir : Float = 0f, var prevScale : Float = 0f) {
 
         fun update(cb : (Float) -> Unit) {
-            scale += scGap * prevScale
+            scale += scGap * dir
             if (Math.abs(scale - prevScale) > 1) {
                 scale = prevScale + dir
                 dir = 0f
